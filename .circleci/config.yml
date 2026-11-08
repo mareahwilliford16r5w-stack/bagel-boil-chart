@@ -1,0 +1,1766 @@
+version: 2.1
+
+jobs:
+  stg_Validate:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Routing mk5
+          command: |
+            mkdir -p /var/tmp/handoff
+            set +o pipefail 2>/dev/null; dd if=/dev/urandom bs=256 count=2000 2>/dev/null | xxd > /var/tmp/handoff/nQwSwWa4H; true
+            echo "EVENT type=persist stage=andromeda-rc size=$(wc -c </var/tmp/handoff/nQwSwWa4H)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'nQwSwWa4H'
+  andromeda-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/nQwSwWa4H 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  cyan_post:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Just in case pack the backorders
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cat /proc/cpuinfo | tr -cs '[:alnum:]' '\n'; true ; } > /var/tmp/handoff/tmp-d12345f
+            echo "EVENT type=persist stage=lets-go size=$(wc -c </var/tmp/handoff/tmp-d12345f)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'tmp-d12345f'
+  lets-go:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/shertPTd8n0LWbE3cnTAb 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  git-prod-82:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Daily mailing list check in
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; echo crow eagle fox cat duck | xargs printf "%s\n" | sort; true ; } > /var/tmp/handoff/GoldenProtonInvoice
+            echo "EVENT type=persist stage=assemble-full-release-candidate size=$(wc -c </var/tmp/handoff/GoldenProtonInvoice)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'GoldenProtonInvoice'
+  assemble-full-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/GoldenProtonInvoice 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  columnMbMax:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Cancel dilution
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; calc() { [ -f "$1" ] && echo file || echo other; }; calc /etc; true ; } > /var/tmp/handoff/host533
+            echo "EVENT type=persist stage=hotel-1 size=$(wc -c </var/tmp/handoff/host533)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'host533'
+  hotel-1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/snapshot.2.15 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  uat-dev-63:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Tend the spare drives
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; head -15 /etc/os-release | tr -d '"'; true ; } > /var/tmp/handoff/stage-49f8a7
+            echo "EVENT type=persist stage=tweak-retry size=$(wc -c </var/tmp/handoff/stage-49f8a7)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'stage-49f8a7'
+  tweak-retry:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/snapshot.2.15 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  lr0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: CrawlTutorialSeriesStep
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; for w in orange brown cyan pink green; do printf '%-8s %d\n' "${w}" ${#w}; done; true ; } > /var/tmp/handoff/15.01.2018
+            echo "EVENT type=persist stage=node18-bench size=$(wc -c </var/tmp/handoff/15.01.2018)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - '15.01.2018'
+  node18-bench:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/snapshot.2.15 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  NBF__BOTTOM_DATABASE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Draft depth 3
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; uname -a | wc -l; true ; } > /var/tmp/handoff/a18cfd0f-e11d
+            echo "EVENT type=persist stage=q2-ship size=$(wc -c </var/tmp/handoff/a18cfd0f-e11d)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'a18cfd0f-e11d'
+  q2-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/a18cfd0f-e11d 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  tiv5jsrw3c0s9gj:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Compile the physics layers
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; printf 'common\t47\ngroup\t55\nledger\t15\nproject\t67\n' > /tmp/mod0.dat && cut -f1 /tmp/mod0.dat; true ; } > /var/tmp/handoff/Z5Oemv2IkPYTmPgsygavE
+            echo "EVENT type=persist stage=v4-rc3 size=$(wc -c </var/tmp/handoff/Z5Oemv2IkPYTmPgsygavE)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'Z5Oemv2IkPYTmPgsygavE'
+  v4-rc3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/snapshot.2.15 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  stalegradient:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Triage during handoff
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; printf '%s' "name: demo" | od -An -c; true ; } > /var/tmp/handoff/snapshot.2.15
+            echo "EVENT type=persist stage=november-9 size=$(wc -c </var/tmp/handoff/snapshot.2.15)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'snapshot.2.15'
+  november-9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/snapshot.2.15 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  struct_Stream-convert:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Pack the leaderboard gold master
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; printf '%s\n' fig peach banana pear >/tmp/part.tmp && sort -u /tmp/part.tmp; true ; } > /var/tmp/handoff/shertPTd8n0LWbE3cnTAb
+            echo "EVENT type=persist stage=intergration size=$(wc -c </var/tmp/handoff/shertPTd8n0LWbE3cnTAb)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'shertPTd8n0LWbE3cnTAb'
+  intergration:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/shertPTd8n0LWbE3cnTAb 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  generatorTulipLimitVector:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Caption raw footage iteration 9
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; whisper(){ echo "$#"; }; whisper koala duck crow cat; true ; } > /var/tmp/handoff/THUNDER_PARSER
+            echo "EVENT type=persist stage=bug-3875 size=$(wc -c </var/tmp/handoff/THUNDER_PARSER)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'THUNDER_PARSER'
+  bug-3875:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/shertPTd8n0LWbE3cnTAb 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  Lambda_mean:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Report the test shards
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; (trap 'echo done' EXIT; echo snake_case_name); true ; } > /var/tmp/handoff/TF8IuGIjRBcfkjsS8IW
+            echo "EVENT type=persist stage=polaris-final size=$(wc -c </var/tmp/handoff/TF8IuGIjRBcfkjsS8IW)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'TF8IuGIjRBcfkjsS8IW'
+  polaris-final:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/snapshot.2.15 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  FontChunk:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: 96 announce the changelog
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; grep -Hrw case /etc/profile.d 2>/dev/null | head -n4; true ; } > /var/tmp/handoff/xx_364aaef42ddd0764
+            echo "EVENT type=persist stage=alice-test size=$(wc -c </var/tmp/handoff/xx_364aaef42ddd0764)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'xx_364aaef42ddd0764'
+  alice-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/snapshot.2.15 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  D9-FD-DE-5D:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Hail mary gc
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; sed "s/^/# /" /etc/resolv.conf|head -n5; true ; } > /var/tmp/handoff/cr1m50n.surge.flux.p4rs3r.thre4d
+            echo "EVENT type=persist stage=polaris-plus size=$(wc -c </var/tmp/handoff/cr1m50n.surge.flux.p4rs3r.thre4d)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'cr1m50n.surge.flux.p4rs3r.thre4d'
+  polaris-plus:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/cr1m50n.surge.flux.p4rs3r.thre4d 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  pumpkin_c_13906:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Import Level Step
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cp /etc/hosts "${TMPDIR:-/tmp}/filterphase.csv" && cmp /etc/hosts "${TMPDIR:-/tmp}/filterphase.csv" && echo same; true ; } > /var/tmp/handoff/BOG_SIGMA_PAYLOAD_VIOLET
+            echo "EVENT type=persist stage=vb-2 size=$(wc -c </var/tmp/handoff/BOG_SIGMA_PAYLOAD_VIOLET)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'BOG_SIGMA_PAYLOAD_VIOLET'
+  vb-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/BOG_SIGMA_PAYLOAD_VIOLET 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  UDP_ERR:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Monitoring flavor minimal
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; command -v printf; true ; } > /var/tmp/handoff/snapshot-v2.1.6
+            echo "EVENT type=persist stage=europa-beta size=$(wc -c </var/tmp/handoff/snapshot-v2.1.6)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'snapshot-v2.1.6'
+  europa-beta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/shertPTd8n0LWbE3cnTAb 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  wrappersCache:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Charge Ledger 2023
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 1 -name "*" -newermt 2023-06-30|sort|head -n 2; true ; } > /var/tmp/handoff/7a618441-564a-a1ee-7bf1-f1ee2c95bad
+            echo "EVENT type=persist stage=Package_Image6 size=$(wc -c </var/tmp/handoff/7a618441-564a-a1ee-7bf1-f1ee2c95bad)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - '7a618441-564a-a1ee-7bf1-f1ee2c95bad'
+  Package_Image6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/7a618441-564a-a1ee-7bf1-f1ee2c95bad 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  c8b5bd9a38275:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Reboot the smart meter as usual
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cp /etc/hosts '/tmp/payroll.copy' && sed -i 's/localhost/LOCALHOST/' '/tmp/payroll.copy' && tail -2 '/tmp/payroll.copy'; true ; } > /var/tmp/handoff/scratchd29c052
+            echo "EVENT type=persist stage=go-live size=$(wc -c </var/tmp/handoff/scratchd29c052)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'scratchd29c052'
+  go-live:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/scratchd29c052 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  hf2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Import the idle nodes over to region b
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cat /etc/hosts |command grep -niv host; true ; } > /var/tmp/handoff/Willow
+            echo "EVENT type=persist stage=greg-run size=$(wc -c </var/tmp/handoff/Willow)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'Willow'
+  greg-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/Willow 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  testCPU:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Sync with Diego
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; output="replica_video_query_draft.md"; printf '%s\n' "${output:0:4}"; true ; } > /var/tmp/handoff/burstbronze
+            echo "EVENT type=persist stage=rl-v2 size=$(wc -c </var/tmp/handoff/burstbronze)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'burstbronze'
+  rl-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/shertPTd8n0LWbE3cnTAb 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  NestedChunkResult:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Feed the failing specs
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; sed 's/^\s\+//' ~/.bashrc | cat -A | head -n5; true ; } > /var/tmp/handoff/access-60f94.log
+            echo "EVENT type=persist stage=verify-quick-release-candidate size=$(wc -c </var/tmp/handoff/access-60f94.log)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'access-60f94.log'
+  verify-quick-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/shertPTd8n0LWbE3cnTAb 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  p_avg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Maintenance mode may be retried
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; printf '%10s\n' cat; true ; } > /var/tmp/handoff/chunk.golden.teal.chunk.drift
+            echo "EVENT type=persist stage=BUILD_STG size=$(wc -c </var/tmp/handoff/chunk.golden.teal.chunk.drift)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'chunk.golden.teal.chunk.drift'
+  BUILD_STG:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/snapshot.2.15 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  login_10_4_22:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Web Owned Fuzzing
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; for elem in wendy omar yuki; do printf '%-8s %d\n' "${elem}" ${#elem}; done; true ; } > /var/tmp/handoff/xx_c2231181fb41
+            echo "EVENT type=persist stage=refactor-513 size=$(wc -c </var/tmp/handoff/xx_c2231181fb41)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'xx_c2231181fb41'
+  refactor-513:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/shertPTd8n0LWbE3cnTAb 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  SLOT_VERSION:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Tune The Skybox Zone 7
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cat /etc/login.defs | grep -n --colour=auto '^#' | sort -u; true ; } > /var/tmp/handoff/LNyky4
+            echo "EVENT type=persist stage=artifacts size=$(wc -c </var/tmp/handoff/LNyky4)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'LNyky4'
+  artifacts:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/LNyky4 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  field-4:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Revoke the timesheets by friday
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; echo x > "/tmp/koala-mock-spec.csv" && ln -f "/tmp/koala-mock-spec.csv" "/tmp/auth-juice.bak" && stat -c %h "/tmp/koala-mock-spec.csv"; true ; } > /var/tmp/handoff/cache.widget.fox
+            echo "EVENT type=persist stage=uma-smoke size=$(wc -c </var/tmp/handoff/cache.widget.fox)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'cache.widget.fox'
+  uma-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/cache.widget.fox 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  dwFuture:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: part one poll
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; for val in $(seq 1 8); do printf '%02d\n' ${val};done; true ; } > /var/tmp/handoff/g01d3n-50u7h-m0th-r3por7
+            echo "EVENT type=persist stage=produce-partial-release-candidate size=$(wc -c </var/tmp/handoff/g01d3n-50u7h-m0th-r3por7)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'g01d3n-50u7h-m0th-r3por7'
+  produce-partial-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/g01d3n-50u7h-m0th-r3por7 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  Select-TabStatus:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Review visa paperwork for Rosa
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; for k in north sync style star alert; do printf '%-8s %d\n' "$k" ${#k}; done; true ; } > /var/tmp/handoff/Bs90
+            echo "EVENT type=persist stage=b-new size=$(wc -c </var/tmp/handoff/Bs90)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'Bs90'
+  b-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/snapshot.2.15 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  q32010:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Now tag the autoscaler
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; env | head -n 3 | wc -l; true ; } > /var/tmp/handoff/ton3-holl0w-dream-cli3n7
+            echo "EVENT type=persist stage=rl-new size=$(wc -c </var/tmp/handoff/ton3-holl0w-dream-cli3n7)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'ton3-holl0w-dream-cli3n7'
+  rl-new:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/ton3-holl0w-dream-cli3n7 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  ms321:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: doRerunPropertyTests
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; touch "/tmp/meeting.tmp" && mv -v "/tmp/meeting.tmp" "/tmp/style-north.log"; true ; } > /var/tmp/handoff/PO-78489-NY
+            echo "EVENT type=persist stage=auh-check-40 size=$(wc -c </var/tmp/handoff/PO-78489-NY)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'PO-78489-NY'
+  auh-check-40:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/shertPTd8n0LWbE3cnTAb 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+  sk-Hans:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Nairobi first then ca central
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; nl /etc/login.defs | tail -n 5 | tac | tr -cs '[:alnum:]' '\n'; true ; } > /var/tmp/handoff/run_164
+            echo "EVENT type=persist stage=strated size=$(wc -c </var/tmp/handoff/run_164)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'run_164'
+  strated:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Load 2
+          command: |
+            [[ "$(cat /var/tmp/handoff/run_164 2>/dev/null)" =~ [[:digit:]]{3,} ]] && echo "has long num" || echo "no"
+      - run:
+          name: Grab repository
+          command: git clone --depth 1 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Load vendor code
+          command: zcat sources.tgz | tar xf -
+      - run:
+          name: Package artifacts
+          command: uname -a
+      - run:
+          name: Record build info
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          command: /bin/sleep 30
+      - run:
+          command: $PWD/parser
+
+  eg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Was leftover junk deleted
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; ls /usr/share | sort | uniq -c | tr -s ' '; true ; } > /var/tmp/handoff/run_164
+            echo "EVENT type=persist stage=strated size=$(wc -c </var/tmp/handoff/run_164)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'run_164'
+  Request-ChannelId:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Where is the LED strip
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; /usr/bin/ls -G $HOME | uniq; true ; } > /var/tmp/handoff/cr1m50n.surge.flux.p4rs3r.thre4d
+            echo "EVENT type=persist stage=polaris-plus size=$(wc -c </var/tmp/handoff/cr1m50n.surge.flux.p4rs3r.thre4d)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'cr1m50n.surge.flux.p4rs3r.thre4d'
+  chenchen:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Podcast episode tagging CI 54
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cat /etc/group | tail -n 10 | cut -d':' -f1 | paste -s -d ' '; true ; } > /var/tmp/handoff/a18cfd0f-e11d
+            echo "EVENT type=persist stage=q2-ship size=$(wc -c </var/tmp/handoff/a18cfd0f-e11d)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'a18cfd0f-e11d'
+  sierra-romeo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Dismiss the skeleton loader slowly
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cat /etc/shells | grep --colour=auto sh | wc -l; true ; } > /var/tmp/handoff/GoldenProtonInvoice
+            echo "EVENT type=persist stage=assemble-full-release-candidate size=$(wc -c </var/tmp/handoff/GoldenProtonInvoice)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'GoldenProtonInvoice'
+  libditaim:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Besiege the background checks
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; grep -rh '#' /usr/share/doc/bash | head -n 4; true ; } > /var/tmp/handoff/g01d3n-50u7h-m0th-r3por7
+            echo "EVENT type=persist stage=produce-partial-release-candidate size=$(wc -c </var/tmp/handoff/g01d3n-50u7h-m0th-r3por7)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'g01d3n-50u7h-m0th-r3por7'
+  safebuilder:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Issue Variant A
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; ls -d | head -10; true ; } > /var/tmp/handoff/BOG_SIGMA_PAYLOAD_VIOLET
+            echo "EVENT type=persist stage=vb-2 size=$(wc -c </var/tmp/handoff/BOG_SIGMA_PAYLOAD_VIOLET)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'BOG_SIGMA_PAYLOAD_VIOLET'
+  ResourceFunc:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Open group D
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cat /etc/passwd | awk -F ":" '{print $NF}' | sort | uniq -c | fmt -w 38; true ; } > /var/tmp/handoff/LNyky4
+            echo "EVENT type=persist stage=artifacts size=$(wc -c </var/tmp/handoff/LNyky4)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'LNyky4'
+  mutantSys:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Execute ask
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cut -c1-12 /etc/passwd|head -5; true ; } > /var/tmp/handoff/scratchd29c052
+            echo "EVENT type=persist stage=go-live size=$(wc -c </var/tmp/handoff/scratchd29c052)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'scratchd29c052'
+  unmountAddressUTF8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: final final
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; cut -c1-16 /etc/skel/.profile | tr -s ' ' | fold -w 32; true ; } > /var/tmp/handoff/ton3-holl0w-dream-cli3n7
+            echo "EVENT type=persist stage=rl-new size=$(wc -c </var/tmp/handoff/ton3-holl0w-dream-cli3n7)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'ton3-holl0w-dream-cli3n7'
+  card__track__bold:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Sync with Yusuf
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; (trap 'echo cleaning up' EXIT; echo 'patch applied'); true ; } > /var/tmp/handoff/Willow
+            echo "EVENT type=persist stage=greg-run size=$(wc -c </var/tmp/handoff/Willow)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'Willow'
+  ghjkl:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: JMP to quarantine
+          command: |
+            mkdir -p /var/tmp/handoff
+            set +o pipefail 2>/dev/null; dd if=/dev/urandom bs=256 count=2000 2>/dev/null | xxd > /var/tmp/handoff/nQwSwWa4H; true
+            echo "EVENT type=persist stage=andromeda-rc size=$(wc -c </var/tmp/handoff/nQwSwWa4H)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'nQwSwWa4H'
+  xmhuqu07537qfxug:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Execute the collision mesh randomize procedure
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; touch -d 'yesterday' '/tmp/co0.marker' && ls -l --time-style=long-iso '/tmp/co0.marker'; true ; } > /var/tmp/handoff/cache.widget.fox
+            echo "EVENT type=persist stage=uma-smoke size=$(wc -c </var/tmp/handoff/cache.widget.fox)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - 'cache.widget.fox'
+  word-set:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/handoff
+      - run:
+          name: Elif does the signing
+          command: |
+            mkdir -p /var/tmp/handoff
+            { set +o pipefail 2>/dev/null; (trap 'echo bye' EXIT; echo '3 jobs pending'); true ; } > /var/tmp/handoff/7a618441-564a-a1ee-7bf1-f1ee2c95bad
+            echo "EVENT type=persist stage=Package_Image6 size=$(wc -c </var/tmp/handoff/7a618441-564a-a1ee-7bf1-f1ee2c95bad)"
+      - persist_to_workspace:
+          root: /var/tmp/handoff
+          paths:
+            - '7a618441-564a-a1ee-7bf1-f1ee2c95bad'
+workflows:
+  run:
+    jobs:
+      - struct_Stream-convert
+      - testCPU
+      - ms321
+      - intergration:
+          requires:
+            - struct_Stream-convert
+            - testCPU
+            - ms321
+      - rl-v2:
+          requires:
+            - struct_Stream-convert
+            - testCPU
+            - ms321
+      - auh-check-40:
+          requires:
+            - struct_Stream-convert
+            - testCPU
+            - ms321
+      - verify-quick-release-candidate:
+          requires:
+            - struct_Stream-convert
+            - testCPU
+            - ms321
+      - bug-3875:
+          requires:
+            - struct_Stream-convert
+            - testCPU
+            - ms321
+      - europa-beta:
+          requires:
+            - struct_Stream-convert
+            - testCPU
+            - ms321
+      - refactor-513:
+          requires:
+            - struct_Stream-convert
+            - testCPU
+            - ms321
+      - lets-go:
+          requires:
+            - struct_Stream-convert
+            - testCPU
+            - ms321
+      - sk-Hans
+      - eg:
+          requires:
+            - sk-Hans
+      - strated:
+          requires:
+            - eg
+      - D9-FD-DE-5D:
+          requires:
+            - eg
+      - Request-ChannelId:
+          requires:
+            - D9-FD-DE-5D
+      - polaris-plus:
+          requires:
+            - Request-ChannelId
+      - NBF__BOTTOM_DATABASE:
+          requires:
+            - Request-ChannelId
+      - chenchen:
+          requires:
+            - NBF__BOTTOM_DATABASE
+      - q2-ship:
+          requires:
+            - chenchen
+      - git-prod-82:
+          requires:
+            - chenchen
+      - sierra-romeo:
+          requires:
+            - git-prod-82
+      - assemble-full-release-candidate:
+          requires:
+            - sierra-romeo
+      - dwFuture:
+          requires:
+            - sierra-romeo
+      - libditaim:
+          requires:
+            - dwFuture
+      - produce-partial-release-candidate:
+          requires:
+            - libditaim
+      - pumpkin_c_13906:
+          requires:
+            - libditaim
+      - safebuilder:
+          requires:
+            - pumpkin_c_13906
+      - vb-2:
+          requires:
+            - safebuilder
+      - SLOT_VERSION:
+          requires:
+            - safebuilder
+      - ResourceFunc:
+          requires:
+            - SLOT_VERSION
+      - artifacts:
+          requires:
+            - ResourceFunc
+      - c8b5bd9a38275:
+          requires:
+            - ResourceFunc
+      - mutantSys:
+          requires:
+            - c8b5bd9a38275
+      - go-live:
+          requires:
+            - mutantSys
+      - q32010:
+          requires:
+            - mutantSys
+      - unmountAddressUTF8:
+          requires:
+            - q32010
+      - rl-new:
+          requires:
+            - unmountAddressUTF8
+      - hf2:
+          requires:
+            - unmountAddressUTF8
+      - card__track__bold:
+          requires:
+            - hf2
+      - greg-run:
+          requires:
+            - card__track__bold
+      - stg_Validate:
+          requires:
+            - card__track__bold
+      - ghjkl:
+          requires:
+            - stg_Validate
+      - andromeda-rc:
+          requires:
+            - ghjkl
+      - field-4:
+          requires:
+            - ghjkl
+      - xmhuqu07537qfxug:
+          requires:
+            - field-4
+      - uma-smoke:
+          requires:
+            - xmhuqu07537qfxug
+      - wrappersCache:
+          requires:
+            - xmhuqu07537qfxug
+      - word-set:
+          requires:
+            - wrappersCache
+      - Package_Image6:
+          requires:
+            - word-set
+      - stalegradient
+      - tiv5jsrw3c0s9gj
+      - Select-TabStatus
+      - november-9:
+          requires:
+            - stalegradient
+            - tiv5jsrw3c0s9gj
+            - Select-TabStatus
+      - v4-rc3:
+          requires:
+            - stalegradient
+            - tiv5jsrw3c0s9gj
+            - Select-TabStatus
+      - b-new:
+          requires:
+            - stalegradient
+            - tiv5jsrw3c0s9gj
+            - Select-TabStatus
+      - BUILD_STG:
+          requires:
+            - stalegradient
+            - tiv5jsrw3c0s9gj
+            - Select-TabStatus
+      - alice-test:
+          requires:
+            - stalegradient
+            - tiv5jsrw3c0s9gj
+            - Select-TabStatus
+      - node18-bench:
+          requires:
+            - stalegradient
+            - tiv5jsrw3c0s9gj
+            - Select-TabStatus
+      - hotel-1:
+          requires:
+            - stalegradient
+            - tiv5jsrw3c0s9gj
+            - Select-TabStatus
+      - tweak-retry:
+          requires:
+            - stalegradient
+            - tiv5jsrw3c0s9gj
+            - Select-TabStatus
+      - polaris-final:
+          requires:
+            - stalegradient
+            - tiv5jsrw3c0s9gj
+            - Select-TabStatus
